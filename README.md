@@ -2,9 +2,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-To run the application run the following commands:
+To run the application got to the parent directory and run the following commands:
 
-1. "npm instal" // to install the dependencies
+1. "npm install" // to install the dependencies
 
 2. Run "npm start" from the project directory
 
