@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+}
+
+.contacts {
+    display: flex;
+    flex-wrap: wrap;
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    background-color:black;
+}
+
+.contact-card {
+    background-color: #2B1D27;
+    margin:5px;
+    width:40%;
+    color: whitesmoke;
+}
+
+.hilight {
+  display: block;
+}
+
+.contact-card img {
+    width: 100%;
+    height: auto;
+}
+
+.contact-card h3 {
+    text-align: center;
+}
+
+.contact-card p {
+    font-size: 12px;
+}
+
+.filters {
+  width: 90%;
+  float: left;
+  margin: 10px 10px 10px;
+}
+
+.filters div {
+  border-radius: 1px;
+  border-width: thin;
+  border-style: solid;
+  margin: 10px 0px 0px 0px;
+  padding: 0px 10px 10px 00px;
+}
+
+.filterGrid {
+  width: 100%;
+  float: left;
+  margin: 10px;
+}
+
+.filterGrid p {
+  color:#111;
+  font-size: 24px;
+  line-height: 1px;
+}
+
+.textBox {
+  border: 3px outset;
+  width: 90%;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.paddin10 {
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
+  margin: 0px 0px 10px 0px;
+}
+
+.lined-bottom {
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+}
+
+.left-float {
+  float: left;
+  width: 50%;
+}
+
+.right-float {
+  float: right;
+  text-align: right;
+  width: 50%;
+}
+
+.width-check {
+  width: 100%;
+  display: flex;
+  margin: 5px 5px 5px 0px;
+  border-bottom: 1px solid whitesmoke;
+  padding-bottom: 5px;
+  font-size: 10px;
+}
+
+@media only screen and (min-width: 768px) {
+
+  .filters {
+    width: 15%;
+  }
+  .filterGrid {
+    width: 70%;
+    float: left;
+  }
+
+  .textBox {
+    border: 3px outset;
+    width: 30%;
+  }
+  .contact-card {
+      width:22%;
+  }
+
+  .contacts {
+    width: 80%
+  }
+
+  .hilight {
+    display: block;
+    position: absolute;
+    background-color: rgba(0,0,0,0.65);
+    color: #FFF;
+    margin-top: -90px;
+    width: 18%;
+  }
+
+  .width-check {
+    font-size: 15px;
+  }
+}
