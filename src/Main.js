@@ -1,34 +1,31 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Character from "./Character";
 import Filters from "./Filters";
+import Api from "./Api";
 
-class Main extends Component
-{
+class Main extends Component {
   constructor() {
     super();
     this.state = {
-      isLoaded : false,
+      isLoaded: false,
       allCharacters: [],
-      characters : [],
-      searchText: '',
-      filterText: [],
+      characters: [],
+      searchText: "",
+      filterText: []
     };
   }
 
-  componentDidMount( ) {
-    fetch("https://rickandmortyapi.com/api/character")
-      .then(response=>response.json())
-      .then(data=> {
-        const result = data.results;
-        this.setState({
-          isLoaded: true,
-          allCharacters: result,
-          characters: result
-        })
+  componentDidMount() {
+    Api.get("/").then(response => {
+      this.setState({
+        isLoaded: true,
+        allCharacters: response.data.results,
+        characters: response.data.results
       });
-      this.searchUpdate = this.searchUpdate.bind(this);
-      this.handleChange = this.handleChange.bind(this);
-      this.handleFilter = this.handleFilter.bind(this);
+    });
+    this.searchUpdate = this.searchUpdate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
   }
 
   handleChange(event) {
@@ -38,77 +35,84 @@ class Main extends Component
     this.searchUpdate();
   }
 
-    searchUpdate() {
-      if (this.state.searchText) {
-        const searchedCharacters = this.state.allCharacters.filter(character => {
-          return character.name.toLowerCase().includes(this.state.searchText.toLowerCase());
-        })
-        this.setState({
-          characters: searchedCharacters
-        })
-      } else {
-        this.setState({
-          characters: this.state.allCharacters
-        });
-      }
-    }
-
-    handleFilter(event, subscriber) {
-      const filterItems = this.state.filterText;
-      if (event.target.checked) {
-        filterItems.push(event.target.value.toLowerCase());
-      } else {
-        const index = filterItems.indexOf(event.target.value);
-        filterItems.splice(index, 1);
-      }
-      this.setState({
-        filterText: filterItems
+  searchUpdate() {
+    if (this.state.searchText) {
+      const searchedCharacters = this.state.allCharacters.filter(character => {
+        return character.name
+          .toLowerCase()
+          .includes(this.state.searchText.toLowerCase());
       });
-
-      this.applyFilter(subscriber);
+      this.setState({
+        characters: searchedCharacters
+      });
+    } else {
+      this.setState({
+        characters: this.state.allCharacters
+      });
     }
+  }
 
-    applyFilter(subscriber) {
-      if (this.state.filterText.length === 0) {
-        this.setState({
-          characters: this.state.allCharacters
-        });
-      } else {
-        const filteredCharacters = this.state.allCharacters.filter(character => {
-          if (!character[subscriber].name) {
-            return this.state.filterText.indexOf(character[subscriber].toLowerCase()) >= 0;
-          } else {
-            return this.state.filterText.indexOf(character[subscriber].name.toLowerCase()) >= 0;
-          }
-        });
-        this.setState({
-          characters: filteredCharacters
-        });
-      }
+  handleFilter(event, subscriber) {
+    const filterItems = this.state.filterText;
+    if (event.target.checked) {
+      filterItems.push(event.target.value.toLowerCase());
+    } else {
+      const index = filterItems.indexOf(event.target.value);
+      filterItems.splice(index, 1);
     }
+    this.setState({
+      filterText: filterItems
+    });
+
+    this.applyFilter(subscriber);
+  }
+
+  applyFilter(subscriber) {
+    if (this.state.filterText.length === 0) {
+      this.setState({
+        characters: this.state.allCharacters
+      });
+    } else {
+      const filteredCharacters = this.state.allCharacters.filter(character => {
+        if (!character[subscriber].name) {
+          return (
+            this.state.filterText.indexOf(
+              character[subscriber].toLowerCase()
+            ) >= 0
+          );
+        } else {
+          return (
+            this.state.filterText.indexOf(
+              character[subscriber].name.toLowerCase()
+            ) >= 0
+          );
+        }
+      });
+      this.setState({
+        characters: filteredCharacters
+      });
+    }
+  }
 
   render() {
-    let {isLoaded, characters, filterText} = this.state;
+    let { isLoaded, characters, filterText } = this.state;
     if (!isLoaded) {
-      return(
-        <div> Loading.....</div>
-      );
+      return <div> Loading.....</div>;
     } else {
-      const characterComponent = characters.map(
-        character => <Character key={character.id} item={character} />
-      );
+      const characterComponent = characters.map(character => (
+        <Character key={character.id} item={character} />
+      ));
 
-      let filterVisibility = 'hidden';
+      let filterVisibility = "hidden";
       let filters = [];
       if (filterText.length > 0) {
         filters = filterText.map(filter => {
-          return <button key={filter}>{filter}</button>
-        })
-        filterVisibility = 'show';
+          return <button key={filter}>{filter}</button>;
+        });
+        filterVisibility = "show";
       }
 
-
-      return(
+      return (
         <div>
           <Filters handleFilter={this.handleFilter} />
           <div className="filterGrid">
@@ -117,11 +121,14 @@ class Main extends Component
               {filters}
             </div>
             <label> Search by name </label> <br />
-            <input className="textBox" type="text" value={this.state.searchText} onChange={this.handleChange}/>
+            <input
+              className="textBox"
+              type="text"
+              value={this.state.searchText}
+              onChange={this.handleChange}
+            />
           </div>
-          <div className="contacts">
-            {characterComponent}
-          </div>
+          <div className="contacts">{characterComponent}</div>
         </div>
       );
     }
