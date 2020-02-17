@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Character from "./Character";
 import Filters from "./Filters";
-import Api from "./Api";
+// import Api from "./Api";
 
 class Main extends Component {
   constructor() {
@@ -16,16 +16,19 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    Api.get("/").then(response => {
-      this.setState({
-        isLoaded: true,
-        allCharacters: response.data.results,
-        characters: response.data.results
+    fetch("https://rickandmortyapi.com/api/character")
+      .then(response=>response.json())
+      .then(data=> {
+        const result = data.results;
+        this.setState({
+          isLoaded: true,
+          allCharacters: result,
+          characters: result
+        })
       });
-    });
-    this.searchUpdate = this.searchUpdate.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleFilter = this.handleFilter.bind(this);
+      this.searchUpdate = this.searchUpdate.bind(this);
+      this.handleChange = this.handleChange.bind(this);
+      this.handleFilter = this.handleFilter.bind(this);
   }
 
   handleChange(event) {
